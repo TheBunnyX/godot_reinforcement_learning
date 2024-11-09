@@ -1,0 +1,100 @@
+[gd_scene load_steps=15 format=3 uid="uid://ysmyakg7p3fj"]
+
+[ext_resource type="Script" path="res://cube.gd" id="1_a47wa"]
+[ext_resource type="Script" path="res://AIController3D.gd" id="2_v2r8t"]
+[ext_resource type="Script" path="res://addons/godot_rl_agents/sync.gd" id="3_2gawd"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pk23a"]
+emission_enabled = true
+emission = Color(0.521569, 0.498039, 0.490196, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_w4m7o"]
+material = SubResource("StandardMaterial3D_pk23a")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hb4c2"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_isodn"]
+size = Vector3(5, 0.05, 5)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_b1axm"]
+data = PackedVector3Array(-2.5, 0.025, 2.5, 2.5, 0.025, 2.5, -2.5, -0.025, 2.5, 2.5, 0.025, 2.5, 2.5, -0.025, 2.5, -2.5, -0.025, 2.5, 2.5, 0.025, -2.5, -2.5, 0.025, -2.5, 2.5, -0.025, -2.5, -2.5, 0.025, -2.5, -2.5, -0.025, -2.5, 2.5, -0.025, -2.5, 2.5, 0.025, 2.5, 2.5, 0.025, -2.5, 2.5, -0.025, 2.5, 2.5, 0.025, -2.5, 2.5, -0.025, -2.5, 2.5, -0.025, 2.5, -2.5, 0.025, -2.5, -2.5, 0.025, 2.5, -2.5, -0.025, -2.5, -2.5, 0.025, 2.5, -2.5, -0.025, 2.5, -2.5, -0.025, -2.5, 2.5, 0.025, 2.5, -2.5, 0.025, 2.5, 2.5, 0.025, -2.5, -2.5, 0.025, 2.5, -2.5, 0.025, -2.5, 2.5, 0.025, -2.5, -2.5, -0.025, 2.5, 2.5, -0.025, 2.5, -2.5, -0.025, -2.5, 2.5, -0.025, 2.5, 2.5, -0.025, -2.5, -2.5, -0.025, -2.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_gx14v"]
+size = Vector3(1, 0.25, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vohfo"]
+emission_enabled = true
+emission = Color(0.368627, 0.509804, 0.752941, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_rqc76"]
+material = SubResource("StandardMaterial3D_vohfo")
+size = Vector3(1, 0.25, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_iqpcd"]
+size = Vector3(0.5, 1, 6)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_2hac3"]
+size = Vector3(5, 1, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_h0orr"]
+size = Vector3(5, 1, 0.5)
+
+[node name="Main" type="Node3D"]
+
+[node name="Cube" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0248795, 0.665352, 1.40249)
+script = ExtResource("1_a47wa")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Cube"]
+mesh = SubResource("BoxMesh_w4m7o")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Cube"]
+shape = SubResource("BoxShape3D_hb4c2")
+
+[node name="AIController3D" type="Node3D" parent="Cube"]
+script = ExtResource("2_v2r8t")
+
+[node name="Floor" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_isodn")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Floor"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_b1axm")
+
+[node name="Target" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1343, -1.48909)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Target"]
+shape = SubResource("BoxShape3D_gx14v")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Target"]
+mesh = SubResource("BoxMesh_rqc76")
+
+[node name="Wall" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Wall"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.75498, 0, 0)
+shape = SubResource("BoxShape3D_iqpcd")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Wall"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.74808, 0, 0)
+shape = SubResource("BoxShape3D_iqpcd")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="Wall"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0170531, 0, -2.77451)
+shape = SubResource("BoxShape3D_2hac3")
+
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="Wall"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0170522, 0, 2.75576)
+shape = SubResource("BoxShape3D_h0orr")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.999801, 0.00941099, -0.0175697, -0.0033182, 0.947798, 0.318854, 0.0196533, -0.318733, 0.947641, 0.110609, 2.61738, 5.2547)
+
+[node name="Sync" type="Node" parent="."]
+script = ExtResource("3_2gawd")
+action_repeat = 64
+
+[connection signal="body_entered" from="Target" to="Cube" method="_on_target_body_entered"]
+[connection signal="body_entered" from="Wall" to="Cube" method="_on_wall_body_entered"]
